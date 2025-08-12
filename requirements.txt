@@ -5,7 +5,4 @@ matplotlib
 seaborn
 scikit-learn
 joblib
-<<<<<<< HEAD
-=======
 
->>>>>>> 3d90d6209ad8384cf803b02f9294daec4e7dac11
