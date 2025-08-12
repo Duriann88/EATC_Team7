@@ -146,10 +146,10 @@ elif selected_tab == "Real-Time Prediction":
                 input_df = input_df.drop(columns=["SHA256"])
 
             # Load trained model
-            model = joblib.load("random_forest_model.joblib")
+            model = joblib.load("xgb_model.joblib")
 
             # Load correct feature order
-            feature_list = pd.read_csv("trained_feature_order.csv")["Feature"].tolist()
+            feature_list = pd.read_csv("new_feature_order.csv")["Feature"].tolist()
 
             # Align features
             input_df = input_df.reindex(columns=feature_list, fill_value=0)
