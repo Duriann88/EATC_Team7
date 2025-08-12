@@ -1,42 +1,62 @@
 import streamlit as st
+from PIL import Image
 import pandas as pd
-import pickle
 import joblib
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from io import StringIO
 
-# --- PAGE SETUP ---
-st.set_page_config(
-    page_title="Malware Detection System",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# ----- Custom Cyberpunk CSS -----
+cyberpunk_css = """
+<style>
+    body {
+        background-color: #0d0d0d;
+        color: #00ff99;
+    }
+    .stApp {
+        background-color: #0d0d0d;
+        color: #00ff99;
+    }
+    h1, h2, h3, h4 {
+        color: #00ff99 !important;
+        text-shadow: 0 0 10px #00ff99;
+    }
+    .top-nav {
+        display: flex;
+        justify-content: center;
+        background-color: #1a1a1a;
+        padding: 10px;
+        border-bottom: 2px solid #00ff99;
+    }
+    .nav-button {
+        color: #00ff99;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 0 10px;
+        background: transparent;
+        border: 2px solid #00ff99;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+    .nav-button:hover {
+        background-color: #00ff99;
+        color: black;
+        box-shadow: 0 0 10px #00ff99;
+    }
+</style>
+"""
+st.markdown(cyberpunk_css, unsafe_allow_html=True)
 
-# --- DARK THEME STYLING ---
-st.markdown("""
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-        }
-        .reportview-container {
-            background-color: #121212;
-        }
-        .sidebar .sidebar-content {
-            background-color: #1e1e1e;
-        }
-        .css-1d391kg, .css-hxt7ib, .css-1q8dd3e, .css-1v0mbdj {
-            color: white;
-        }
-    </style>
-""", unsafe_allow_html=True)
+# ----- Top Navigation Bar -----
+pages = ["Home", "EDA Insights", "Model Info", "Real-Time Prediction"]
+selected_tab = st.session_state.get("selected_tab", "Home")
 
-# --- SIDEBAR NAVIGATION ---
-st.sidebar.title("Navigation")
-selected_tab = st.sidebar.selectbox("Go to", ["Home", "EDA Insights","Model Performance", "Real-Time Prediction"])
+def set_tab(tab):
+    st.session_state.selected_tab = tab
 
+st.markdown('<div class="top-nav">', unsafe_allow_html=True)
+for page in pages:
+    if st.button(page, key=page, help=f"Go to {page}"):
+        set_tab(page)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- HOME PAGE ---
 if selected_tab == "Home":
@@ -93,88 +113,6 @@ if selected_tab == "Home":
     ---
     """)
 
-# --- REAL-TIME PREDICTION TAB ---
-elif selected_tab == "Real-Time Prediction":
-    st.title(" Real-Time Malware Prediction")
-
-    # --- File download section ---
-    st.subheader(" Download Support Files")
-
-    col1, col2 = st.columns([1, 2])
-
-    with col1:
-        # Button: Sample input CSV
-        with open("tools/sample_input.csv", "rb") as f:
-            st.download_button(
-                label="Sample Input CSV",
-                data=f,
-                file_name="sample_input.csv",
-                mime="text/csv"
-            )
-    with col2:
-        st.markdown(
-            "Use this sample to understand how your feature input file should be formatted before uploading."
-        )
-
-    col3, col4 = st.columns([1, 2])
-
-    with col3:
-        # Button: extract_features.py
-        with open("tools/extract_features.py", "rb") as f:
-            st.download_button(
-                label="💻 extract_features.py",
-                data=f,
-                file_name="extract_features.py",
-                mime="text/x-python"
-            )
-    with col4:
-        st.markdown(
-            "This script helps extract features from raw executables. Include this in your own data pipeline if needed."
-        )
-
-    # --- Upload for prediction ---
-    st.subheader(" Upload Your Feature CSV for Prediction")
-    uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
-
-    if uploaded_file is not None:
-        try:
-            # Load uploaded file
-            input_df = pd.read_csv(uploaded_file)
-
-            # Drop SHA256 if present
-            if "SHA256" in input_df.columns:
-                input_df = input_df.drop(columns=["SHA256"])
-
-            # Load trained model
-            model = joblib.load("xgb_model.joblib")
-
-            # Load correct feature order
-            feature_list = pd.read_csv("new_feature_order.csv")["Feature"].tolist()
-
-            # Align features
-            input_df = input_df.reindex(columns=feature_list, fill_value=0)
-
-            # Predict
-            prediction = model.predict(input_df)[0]
-
-            # Map label
-            label_map = {
-                0: "Benign",
-                1: "RedLineStealer",
-                2: "Downloader",
-                3: "RAT",
-                4: "BankingTrojan",
-                5: "SnakeKeyLogger",
-                6: "Spyware"
-            }
-
-            result = label_map.get(prediction, "Unknown")
-            st.success(f" Prediction: **{result}**")
-
-        except Exception as e:
-            st.error(f" Prediction failed: {e}")
-
-
 
 elif selected_tab == "EDA Insights":
     st.title("EDA Insights")
@@ -189,58 +127,90 @@ elif selected_tab == "EDA Insights":
     st.subheader("3. Feature Correlation Heatmap")
     st.image("corelation_heatmap.png", caption="Correlation heatmap on sample of 3000 rows", use_container_width=True)
 
-    st.subheader("4. Top Correlated Features (Line Plot by Class)")
-    st.image("line_plot.png", caption="Class-wise trends for top correlated features", use_container_width=True)
-
-    st.subheader("5. Distribution of Key Features by Class")
-    st.markdown("These plots show how the distribution of key features varies across malware families.")
-
+    st.subheader("4. Distribution of Key Features by Class")
     col1, col2 = st.columns(2)
     with col1:
         st.image("AddressOfEntryPoint_distribution_by_class.png", use_container_width=True, caption="AddressOfEntryPoint")
         st.image("rsrc_Misc_VirtualSize_distribution_by_class.png", use_container_width=True, caption="rsrc_Misc_VirtualSize")
         st.image("rsrc_PointerToRawData_distribution_by_class.png", use_container_width=True, caption="rsrc_PointerToRawData")
-
     with col2:
         st.image("text_Misc_VirtualSize_distribution_by_class.png", use_container_width=True, caption="text_Misc_VirtualSize")
         st.image("TimeDateStamp_distribution_by_class.png", use_container_width=True, caption="TimeDateStamp")
 
-# --- Model performance tab ---
-elif selected_tab == "Model Performance":
-    st.title("Model Performance")
-    st.markdown("Here’s how our trained model performed on the malware classification task.")
-
-    # --- Classification Report ---
-    st.subheader("Classification Report")
-    try:
-        with open("classification_report.txt", "r") as f:
-            report = f.read()
-        st.code(report, language='text')
-    except Exception as e:
-        st.error(f"Error loading classification_report.txt: {e}")
-
-    # --- Confusion Matrix ---
-    st.subheader("Confusion Matrix")
-    try:
-        st.image("confusion_matrix.png", caption="Confusion Matrix", use_container_width=True)
-    except Exception as e:
-        st.error(f"Error loading confusion_matrix.png: {e}")
-
-    # --- Feature Importance Plot ---
-    st.subheader("Top Feature Importances")
-    try:
-        feature_df = pd.read_csv("feature_importances.csv").head(15)
-        st.bar_chart(data=feature_df.set_index("Feature"))
-    except Exception as e:
-        st.error(f"Error loading feature_importances.csv: {e}")
-
-    # --- Model Summary ---
-    st.subheader(" Model Summary")
+elif selected_tab == "Model Info":
+    st.title("Model Information")
     st.markdown("""
-    - **Model Type:** Random Forest Classifier  
-    - **Training Samples:** ~30,000 executables  
-    - **Number of Features Used:** Top 200 (selected using ExtraTreesClassifier)  
-    - **Class Imbalance Handling:** `class_weight='balanced'`  
-    - **Best Accuracy Achieved:** ~89.1%  
-    - **Used Libraries:** Scikit-learn, Pandas, Matplotlib, Seaborn
+    ### Final Model: Optuna-Tuned XGBoost
+    - **Algorithm**: XGBoost (multi:softmax)
+    - **Optimizer**: Optuna (30 trials, Stratified K-Fold CV)
+    - **Class imbalance handling**: Class weights via `compute_class_weight`
+    - **Objective**: Multi-class malware classification
+    - **Metrics used**: mlogloss, merror
     """)
+
+elif selected_tab == "Real-Time Prediction":
+    st.title(" Real-Time Malware Prediction")
+
+    # --- File download section ---
+    st.subheader(" Download Support Files")
+
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        with open("tools/sample_input.csv", "rb") as f:
+            st.download_button(
+                label="Sample Input CSV",
+                data=f,
+                file_name="sample_input.csv",
+                mime="text/csv"
+            )
+    with col2:
+        st.markdown("Use this sample to understand how your feature input file should be formatted before uploading.")
+
+    col3, col4 = st.columns([1, 2])
+    with col3:
+        with open("tools/extract_features.py", "rb") as f:
+            st.download_button(
+                label="extract_features.py",
+                data=f,
+                file_name="extract_features.py",
+                mime="text/x-python"
+            )
+    with col4:
+        st.markdown("This script helps extract features from raw executables. Include this in your own data pipeline if needed.")
+
+    # --- Upload CSV for prediction ---
+    st.subheader("Upload CSV for Prediction")
+    uploaded_file = st.file_uploader("Upload your feature CSV", type=["csv"])
+
+    if uploaded_file is not None:
+        user_df = pd.read_csv(uploaded_file)
+        st.write("### Uploaded Data Preview")
+        st.dataframe(user_df.head())
+
+        # Load model and feature order
+        model = joblib.load("models/final_xgb_model.pkl")
+        feature_order = pd.read_csv("new_feature_order.csv")["Feature"].tolist()
+
+        # Match columns
+        try:
+            X_user = user_df[feature_order]
+        except KeyError as e:
+            st.error(f"Missing required features: {e}")
+            st.stop()
+
+        # Predict
+        predictions = model.predict(X_user)
+        results_df = user_df.copy()
+        results_df["Predicted_Type"] = predictions
+
+        st.write("### Prediction Results")
+        st.dataframe(results_df)
+
+        # Download predictions
+        csv = results_df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Download Predictions as CSV",
+            data=csv,
+            file_name="predictions.csv",
+            mime="text/csv"
+        )
