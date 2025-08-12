@@ -390,18 +390,6 @@ def eda_page():
             st.image("assets/line_plot.png", caption="Class-wise trends for highly correlated features", use_container_width=True)
         except:
             st.info("📷 Image file not found: line_plot.png")
-
-    with st.expander("📋 5. Key Feature Distributions"):
-        st.markdown("Distribution patterns of critical features across different malware classes:")
-        
-        col1, col2 = st.columns(2)
-        feature_images = [
-            ("assets/AddressOfEntryPoint_distribution_by_class.png", "Address of Entry Point"),
-            ("assets/rsrc_Misc_VirtualSize_distribution_by_class.png", "Resource Virtual Size"),
-            ("assets/rsrc_PointerToRawData_distribution_by_class.png", "Resource Pointer to Raw Data"),
-            ("assets/text_Misc_VirtualSize_distribution_by_class.png", "Text Section Virtual Size"),
-            ("assets/TimeDateStamp_distribution_by_class.png", "Time Date Stamp")
-        ]
         
         for i, (img_path, title) in enumerate(feature_images):
             with col1 if i % 2 == 0 else col2:
@@ -505,7 +493,7 @@ def model_perf_page():
         <h2>🔧 Technical Implementation</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
             <div>
-                <h3>🎯 Optimization</h3>
+                <h3>Optimization</h3>
                 <ul>
                     <li>Optuna hyperparameter tuning</li>
                     <li>Cross-validation based selection</li>
@@ -513,7 +501,7 @@ def model_perf_page():
                 </ul>
             </div>
             <div>
-                <h3>📊 Feature Engineering</h3>
+                <h3>Feature Engineering</h3>
                 <ul>
                     <li>ExtraTreesClassifier feature selection</li>
                     <li>Top 200 most important features</li>
@@ -553,7 +541,7 @@ def prediction_page():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("**🔬 Sample Input CSV**")
+        st.markdown("**Sample Input CSV**")
         st.markdown("Use this sample to understand the required file format")
         try:
             with open("tools/sample_input.csv", "rb") as f:
