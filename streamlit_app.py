@@ -6,29 +6,20 @@ import joblib
 st.set_page_config(
     page_title="Malware Detection System",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"  # No sidebar visible
 )
 
 # --- MODERN DARK THEME STYLING ---
 st.markdown("""
 <style>
-    /* Overall background and text */
     body, .reportview-container, .css-18e3th9 {
         background-color: #121212 !important;
         color: #E0E0E0 !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    /* Sidebar */
-    .sidebar .sidebar-content {
-        background-color: #1F1F1F;
-        color: #00B8D9;
-        font-weight: 600;
-    }
-
-    /* Sidebar selectbox text */
-    .css-1v0mbdj, .css-1d391kg, .css-hxt7ib, .css-1q8dd3e {
-        color: #E0E0E0;
+    /* Hide sidebar toggle button */
+    #MainMenu, footer, header {
+        visibility: hidden;
     }
 
     /* Buttons */
@@ -39,6 +30,7 @@ st.markdown("""
         padding: 0.6em 1.5em !important;
         font-weight: 600 !important;
         transition: background-color 0.3s ease;
+        margin: 0 5px;
     }
     button[data-baseweb="button"]:hover {
         background-color: #007A99 !important;
@@ -48,6 +40,8 @@ st.markdown("""
     /* Headers */
     h1, h2, h3 {
         color: #00B8D9;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
     }
 
     /* Links */
@@ -59,7 +53,7 @@ st.markdown("""
         text-decoration: underline;
     }
 
-    /* Markdown */
+    /* Markdown paragraphs */
     .markdown-text-container p {
         font-size: 1.1em;
         line-height: 1.6em;
@@ -70,23 +64,44 @@ st.markdown("""
         border-radius: 8px;
     }
 
-    /* Image captions */
-    figcaption {
-        font-style: italic;
-        font-size: 0.85em;
-        color: #AAAAAA;
+    /* Container spacing */
+    .section-container {
+        padding: 1rem 2rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR NAVIGATION ---
-st.sidebar.title("Navigation")
-selected_tab = st.sidebar.selectbox("Go to", ["Home", "EDA Insights", "Model Performance", "Real-Time Prediction"])
+# --- TOP NAVIGATION ---
+st.markdown(
+    """
+    <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+        <button id="home-btn" style="background-color:#00B8D9; border:none; padding:10px 20px; border-radius:8px; color:white; font-weight:600; cursor:pointer;">Home</button>
+        <button id="eda-btn" style="background-color:#444444; border:none; padding:10px 20px; border-radius:8px; color:#CCCCCC; font-weight:600; cursor:pointer;">EDA Insights</button>
+        <button id="model-btn" style="background-color:#444444; border:none; padding:10px 20px; border-radius:8px; color:#CCCCCC; font-weight:600; cursor:pointer;">Model Performance</button>
+        <button id="predict-btn" style="background-color:#444444; border:none; padding:10px 20px; border-radius:8px; color:#CCCCCC; font-weight:600; cursor:pointer;">Real-Time Prediction</button>
+    </div>
+    <script>
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                buttons.forEach(b => {
+                    b.style.backgroundColor = "#444444";
+                    b.style.color = "#CCCCCC";
+                });
+                btn.style.backgroundColor = "#00B8D9";
+                btn.style.color = "white";
+            });
+        });
+    </script>
+    """, unsafe_allow_html=True
+)
 
-# --- HOME PAGE ---
-if selected_tab == "Home":
+# --- Use radio buttons for selecting tab, hidden but sync with buttons via JS ---
+tab = st.radio("", options=["Home", "EDA Insights", "Model Performance", "Real-Time Prediction"], index=0, label_visibility="collapsed")
+
+# -- Content rendering --
+def home_page():
     st.title("Malware Detection System")
-
     st.markdown("""
     Welcome!  
     This web app helps detect whether a Windows executable file (like a `.exe`) is **benign or a type of malware** — using a trained Machine Learning model.
@@ -138,8 +153,7 @@ if selected_tab == "Home":
     ---
     """)
 
-# --- EDA INSIGHTS TAB ---
-elif selected_tab == "EDA Insights":
+def eda_page():
     st.title("EDA Insights")
     st.markdown("Below are key visualizations from the Exploratory Data Analysis (EDA) performed on the dataset.")
 
@@ -167,8 +181,7 @@ elif selected_tab == "EDA Insights":
             st.image("text_Misc_VirtualSize_distribution_by_class.png", use_container_width=True, caption="text_Misc_VirtualSize")
             st.image("TimeDateStamp_distribution_by_class.png", use_container_width=True, caption="TimeDateStamp")
 
-# --- MODEL PERFORMANCE TAB ---
-elif selected_tab == "Model Performance":
+def model_perf_page():
     st.title("Model Performance")
     st.markdown("Here’s how our trained model performed on the malware classification task.")
 
@@ -203,8 +216,7 @@ elif selected_tab == "Model Performance":
     - **Used Libraries:** XGBoost, Scikit-learn, Pandas, Matplotlib, Seaborn
     """)
 
-# --- REAL-TIME PREDICTION TAB ---
-elif selected_tab == "Real-Time Prediction":
+def prediction_page():
     st.title("Real-Time Malware Prediction")
 
     st.subheader("Download Support Files")
@@ -225,7 +237,7 @@ elif selected_tab == "Real-Time Prediction":
     with col3:
         with open("tools/extract_features.py", "rb") as f:
             st.download_button(
-                label="💻 extract_features.py",
+                label="extract_features.py",
                 data=f,
                 file_name="extract_features.py",
                 mime="text/x-python"
@@ -244,19 +256,13 @@ elif selected_tab == "Real-Time Prediction":
                 if "SHA256" in input_df.columns:
                     input_df = input_df.drop(columns=["SHA256"])
 
-                # Load your XGBoost model (update path if needed)
-                model = joblib.load("xgb_optuna_model.joblib")
+                model = joblib.load("xgb_model.joblib")
 
-                # Load feature order
                 feature_list = pd.read_csv("new_feature_order.csv")["Feature"].tolist()
-
-                # Reindex features to model expected order, fill missing with 0
                 input_df = input_df.reindex(columns=feature_list, fill_value=0)
 
-                # Predict
                 prediction = model.predict(input_df)[0]
 
-                # Map label - update if your classes changed
                 label_map = {
                     0: "Benign",
                     1: "RedLineStealer",
@@ -272,3 +278,13 @@ elif selected_tab == "Real-Time Prediction":
 
             except Exception as e:
                 st.error(f"Prediction failed: {e}")
+
+# --- RENDER SELECTED PAGE ---
+if tab == "Home":
+    home_page()
+elif tab == "EDA Insights":
+    eda_page()
+elif tab == "Model Performance":
+    model_perf_page()
+elif tab == "Real-Time Prediction":
+    prediction_page()
