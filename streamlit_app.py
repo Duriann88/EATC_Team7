@@ -247,7 +247,7 @@ def render_navigation():
 
 # --- PAGE CONTENT FUNCTIONS ---
 def home_page():
-    st.markdown('<h1>🛡️ Malware Detection System</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>Malware Detection System</h1>', unsafe_allow_html=True)
     
     # Hero section
     st.markdown("""
@@ -353,7 +353,7 @@ def home_page():
     """, unsafe_allow_html=True)
 
 def eda_page():
-    st.markdown('<h1>📊 EDA Insights</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>EDA Insights</h1>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="feature-card">
@@ -399,7 +399,7 @@ def eda_page():
                     st.info(f"📷 Image file not found: {img_path}")
 
 def model_perf_page():
-    st.markdown('<h1>🤖 Model Performance</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>Model Performance</h1>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="feature-card">
@@ -521,7 +521,7 @@ def model_perf_page():
     """, unsafe_allow_html=True)
 
 def prediction_page():
-    st.markdown('<h1>🔍 Real-Time Prediction</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>Real-Time Prediction</h1>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="feature-card">
