@@ -509,7 +509,7 @@ def model_perf_page():
                 </ul>
             </div>
             <div>
-                <h3>🛠️ Technology Stack</h3>
+                <h3>Technology Stack</h3>
                 <ul>
                     <li>XGBoost, Scikit-learn</li>
                     <li>Pandas, NumPy</li>
@@ -556,7 +556,7 @@ def prediction_page():
             st.error("❌ Sample file not found")
     
     with col2:
-        st.markdown("**🔧 Feature Extractor Tool**")
+        st.markdown("**Feature Extractor Tool**")
         st.markdown("Python script to extract features from your .exe files")
         try:
             with open("tools/extract_features.py", "rb") as f:
