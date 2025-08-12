@@ -1,0 +1,4 @@
+.vs/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
