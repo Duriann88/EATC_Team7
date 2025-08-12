@@ -450,7 +450,7 @@ def model_perf_page():
     """, unsafe_allow_html=True)
     
     try:
-        with open("classification_report.txt", "r") as f:
+        with open("assets/classification_report.txt", "r") as f:
             report = f.read()
         st.code(report, language='text')
     except Exception as e:
@@ -466,24 +466,17 @@ def model_perf_page():
     """, unsafe_allow_html=True)
     
     try:
-        st.image("confusion_matrix.png", caption="Confusion Matrix - Model Prediction Accuracy", use_container_width=True)
+        st.image("assets/confusion_matrix.png", caption="Confusion Matrix - Model Prediction Accuracy", use_container_width=True)
     except Exception as e:
         st.error(f"❌ Error loading confusion_matrix.png: {e}")
     
     st.markdown("</div>", unsafe_allow_html=True)
 
     # Feature Importance
-    st.markdown("""
-    <div class="feature-card">
-        <h2>⭐ Top Feature Importances</h2>
-        <p>The most influential features in malware classification:</p>
-    """, unsafe_allow_html=True)
-    
     try:
-        feature_df = pd.read_csv("feature_importances.csv").head(15)
-        st.bar_chart(data=feature_df.set_index("Feature"))
+        st.image("assets/feature_importance.png", caption="Confusion Matrix - Model Prediction Accuracy", use_container_width=True)
     except Exception as e:
-        st.error(f"❌ Error loading feature_importances.csv: {e}")
+        st.error(f"❌ Error loading feature_importance.png: {e}")
     
     st.markdown("</div>", unsafe_allow_html=True)
 
