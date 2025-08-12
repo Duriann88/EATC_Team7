@@ -474,7 +474,7 @@ def model_perf_page():
 
     # Feature Importance
     try:
-        st.image("assets/feature_importance.png", caption="Confusion Matrix - Model Prediction Accuracy", use_container_width=True)
+        st.image("assets/feature_importance.png", caption="Model Top 20 features", use_container_width=True)
     except Exception as e:
         st.error(f"❌ Error loading feature_importance.png: {e}")
     
