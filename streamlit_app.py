@@ -366,28 +366,28 @@ def eda_page():
     with st.expander("📈 1. Class Distribution", expanded=True):
         st.markdown("Distribution of different malware families in our training dataset:")
         try:
-            st.image("class_distribution.png", caption="Class Distribution of Malware Types", use_container_width=True)
+            st.image("assets/class_distribution.png", caption="Class Distribution of Malware Types", use_container_width=True)
         except:
             st.info("📷 Image file not found: class_distribution.png")
 
     with st.expander("📦 2. Outlier Detection Analysis"):
         st.markdown("Boxplot analysis showing statistical outliers across different malware classes:")
         try:
-            st.image("outlier_boxplots.png", caption="Statistical outliers per malware class", use_container_width=True)
+            st.image("assets/outlier_boxplots.png", caption="Statistical outliers per malware class", use_container_width=True)
         except:
             st.info("📷 Image file not found: outlier_boxplots.png")
 
     with st.expander("🔗 3. Feature Correlation Matrix"):
         st.markdown("Correlation heatmap revealing relationships between different features:")
         try:
-            st.image("correlation_heatmap.png", caption="Feature correlation analysis (sample of 3000 rows)", use_container_width=True)
+            st.image("assets/correlation_heatmap.png", caption="Feature correlation analysis (sample of 3000 rows)", use_container_width=True)
         except:
             st.info("📷 Image file not found: corelation_heatmap.png")
 
     with st.expander("📊 4. Feature Trends by Class"):
         st.markdown("Line plots showing how top correlated features vary across malware families:")
         try:
-            st.image("line_plot.png", caption="Class-wise trends for highly correlated features", use_container_width=True)
+            st.image("assets/line_plot.png", caption="Class-wise trends for highly correlated features", use_container_width=True)
         except:
             st.info("📷 Image file not found: line_plot.png")
 
@@ -396,11 +396,11 @@ def eda_page():
         
         col1, col2 = st.columns(2)
         feature_images = [
-            ("AddressOfEntryPoint_distribution_by_class.png", "Address of Entry Point"),
-            ("rsrc_Misc_VirtualSize_distribution_by_class.png", "Resource Virtual Size"),
-            ("rsrc_PointerToRawData_distribution_by_class.png", "Resource Pointer to Raw Data"),
-            ("text_Misc_VirtualSize_distribution_by_class.png", "Text Section Virtual Size"),
-            ("TimeDateStamp_distribution_by_class.png", "Time Date Stamp")
+            ("assets/AddressOfEntryPoint_distribution_by_class.png", "Address of Entry Point"),
+            ("assets/rsrc_Misc_VirtualSize_distribution_by_class.png", "Resource Virtual Size"),
+            ("assets/rsrc_PointerToRawData_distribution_by_class.png", "Resource Pointer to Raw Data"),
+            ("assets/text_Misc_VirtualSize_distribution_by_class.png", "Text Section Virtual Size"),
+            ("assets/TimeDateStamp_distribution_by_class.png", "Time Date Stamp")
         ]
         
         for i, (img_path, title) in enumerate(feature_images):
