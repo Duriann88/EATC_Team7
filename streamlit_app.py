@@ -380,7 +380,7 @@ def eda_page():
     with st.expander("🔗 3. Feature Correlation Matrix"):
         st.markdown("Correlation heatmap revealing relationships between different features:")
         try:
-            st.image("corelation_heatmap.png", caption="Feature correlation analysis (sample of 3000 rows)", use_container_width=True)
+            st.image("correlation_heatmap.png", caption="Feature correlation analysis (sample of 3000 rows)", use_container_width=True)
         except:
             st.info("📷 Image file not found: corelation_heatmap.png")
 
