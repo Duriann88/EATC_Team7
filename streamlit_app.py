@@ -178,32 +178,47 @@ elif selected_tab == "Real-Time Prediction":
 
 elif selected_tab == "EDA Insights":
     st.title("EDA Insights")
-    st.markdown("Below are key visualizations from the Exploratory Data Analysis (EDA) performed on the dataset.")
+    st.markdown("Upload a CSV file to generate EDA visualizations dynamically.")
 
-    st.subheader("1. Class Distribution")
-    st.image("class_distribution.png", caption="Class Distribution of Malware Types", use_container_width=True)
+    uploaded_csv = st.file_uploader("Upload your CSV for EDA", type=["csv"])
 
-    st.subheader("2. Outlier Detection (Boxplots by Class)")
-    st.image("outlier_boxplots.png", caption="Boxplot showing outliers per class", use_container_width=True)
+    if uploaded_csv is not None:
+        df = pd.read_csv(uploaded_csv)
 
-    st.subheader("3. Feature Correlation Heatmap")
-    st.image("corelation_heatmap.png", caption="Correlation heatmap on sample of 3000 rows", use_container_width=True)
+        st.subheader("1. Class Distribution")
+        if 'Type' in df.columns:
+            fig, ax = plt.subplots()
+            sns.countplot(x='Type', data=df, palette='viridis', ax=ax)
+            plt.xticks(rotation=45)
+            st.pyplot(fig)
+        else:
+            st.warning("Column 'Type' not found in CSV.")
 
-    st.subheader("4. Top Correlated Features (Line Plot by Class)")
-    st.image("line_plot.png", caption="Class-wise trends for top correlated features", use_container_width=True)
+        st.subheader("2. Outlier Detection (Boxplots by Class)")
+        numeric_cols = df.select_dtypes(include=[np.number]).columns
+        if 'Type' in df.columns and len(numeric_cols) > 0:
+            fig, ax = plt.subplots(figsize=(10, 6))
+            sns.boxplot(x='Type', y=numeric_cols[0], data=df, ax=ax)
+            plt.xticks(rotation=45)
+            st.pyplot(fig)
 
-    st.subheader("5. Distribution of Key Features by Class")
-    st.markdown("These plots show how the distribution of key features varies across malware families.")
+        st.subheader("3. Feature Correlation Heatmap")
+        if len(numeric_cols) > 1:
+            fig, ax = plt.subplots(figsize=(12, 8))
+            sns.heatmap(df[numeric_cols].corr(), cmap="coolwarm", annot=False, ax=ax)
+            st.pyplot(fig)
 
-    col1, col2 = st.columns(2)
-    with col1:
-        st.image("AddressOfEntryPoint_distribution_by_class.png", use_container_width=True, caption="AddressOfEntryPoint")
-        st.image("rsrc_Misc_VirtualSize_distribution_by_class.png", use_container_width=True, caption="rsrc_Misc_VirtualSize")
-        st.image("rsrc_PointerToRawData_distribution_by_class.png", use_container_width=True, caption="rsrc_PointerToRawData")
+        st.subheader("4. Top Correlated Features (Line Plot by Class)")
+        if 'Type' in df.columns and len(numeric_cols) > 1:
+            top_corr_features = df[numeric_cols].corr()['Type'].abs().sort_values(ascending=False).head(5).index
+            fig, ax = plt.subplots()
+            for feature in top_corr_features:
+                sns.lineplot(x='Type', y=feature, data=df, ax=ax, label=feature)
+            plt.xticks(rotation=45)
+            st.pyplot(fig)
 
-    with col2:
-        st.image("text_Misc_VirtualSize_distribution_by_class.png", use_container_width=True, caption="text_Misc_VirtualSize")
-        st.image("TimeDateStamp_distribution_by_class.png", use_container_width=True, caption="TimeDateStamp")
+    else:
+        st.info("Please upload a CSV file to view EDA results.")
 
 
 # --- Model performance tab ---
