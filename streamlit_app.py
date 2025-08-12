@@ -390,13 +390,6 @@ def eda_page():
             st.image("assets/line_plot.png", caption="Class-wise trends for highly correlated features", use_container_width=True)
         except:
             st.info("📷 Image file not found: line_plot.png")
-        
-        for i, (img_path, title) in enumerate(feature_images):
-            with col1 if i % 2 == 0 else col2:
-                try:
-                    st.image(img_path, use_container_width=True, caption=title)
-                except:
-                    st.info(f"📷 Image file not found: {img_path}")
 
 def model_perf_page():
     st.markdown('<h1>Model Performance</h1>', unsafe_allow_html=True)
