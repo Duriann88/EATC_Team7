@@ -324,31 +324,6 @@ def eda_page():
         except:
             st.info("📷 Image file not found: assets/line_plot.png")
 
-    with st.expander("📋 5. Key Feature Distributions"):
-        st.markdown("Distribution patterns of critical features across different malware classes:")
-        
-        col1, col2 = st.columns(2)
-        
-        # Define feature images with their titles
-        feature_images = [
-            ("assets/AddressOfEntryPoint_distribution_by_class.png", "Address of Entry Point"),
-            ("assets/rsrc_Misc_VirtualSize_distribution_by_class.png", "Resource Virtual Size"),
-            ("assets/rsrc_PointerToRawData_distribution_by_class.png", "Resource Pointer to Raw Data"),
-            ("assets/text_Misc_VirtualSize_distribution_by_class.png", "Text Section Virtual Size"),
-            ("assets/TimeDateStamp_distribution_by_class.png", "Time Date Stamp")
-        ]
-        
-        # Display images in alternating columns
-        for i in range(len(feature_images)):
-            img_path, title = feature_images[i]
-            target_col = col1 if i % 2 == 0 else col2
-            
-            with target_col:
-                try:
-                    st.image(img_path, use_container_width=True, caption=title)
-                except Exception:
-                    st.info(f"📷 Image file not found: {img_path}")
-
 def model_perf_page():
     st.markdown('<h1>Model Performance</h1>', unsafe_allow_html=True)
     
