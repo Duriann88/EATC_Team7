@@ -137,7 +137,7 @@ a:hover {
 
 
 
-# --- ENHANCED NAVIGATION ---
+# --- NAVIGATION ---
 def render_navigation():
     tabs = ["Home", "EDA Insights", "Model Performance", "Real-Time Prediction"]
     icons = ["🏠", "📊", "🤖", "🔍"]
@@ -159,7 +159,7 @@ def render_navigation():
     
     return tabs[st.session_state.current_tab]
 
-# --- PAGE CONTENT FUNCTIONS ---
+# --- Home Page Content ---
 def home_page():
     # Main title
     st.markdown('<h1>Malware Detection System</h1>', unsafe_allow_html=True)
