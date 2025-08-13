@@ -24,7 +24,7 @@ EATC_Team7/
 ├── requirements.txt             # Python dependencies
 ├── tools/                       # Helper scripts and feature extractors
 ├── assets/                      # Images and visual content
-├── sample_data/                 # Demo CSV files for testing
+├── datasets/                 # Demo CSV files for testing
 ├── API_Functions.zip            # Windows API functions dataset
 ├── DLLs_Imported.zip           # DLL imports dataset
 ├── PE_Header.zip               # PE header features dataset
