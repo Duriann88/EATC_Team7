@@ -211,7 +211,7 @@ def home_page():
         But no worries — we provide a <strong>simple Python script</strong> to help you extract important features from your '.exe' on your own computer. That way, you're always in control of your own data. 🔐</p>
         <p>You just:</p>
         <ul style="font-size: 1.1rem; line-height: 1.8;">
-            <li><strong>PE Header Analysis:</strong> Run the script locally</li>
+            <li>Run the script locally (From our Real-Time Prediction Tab)</li>
             <li>It creates a<strong>.csv</strong> file from your `.exe`</li>
             <li>Upload that<strong>.csv</strong> here for prediction</li>
         </ul>
