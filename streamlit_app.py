@@ -682,4 +682,22 @@ def prediction_page():
                 st.markdown("- Missing required features")
                 st.markdown("- Model files not found")
     
-    st.markdown("</div>",
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# --- MAIN APP ---
+def main():
+    # Render navigation and get current tab
+    current_tab = render_navigation()
+    
+    # Render content based on selected tab
+    if current_tab == "Home":
+        home_page()
+    elif current_tab == "EDA Insights":
+        eda_page()
+    elif current_tab == "Model Performance":
+        model_perf_page()
+    elif current_tab == "Real-Time Prediction":
+        prediction_page()
+
+if __name__ == "__main__":
+    main()
