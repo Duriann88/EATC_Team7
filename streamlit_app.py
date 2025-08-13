@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-
+st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -213,7 +213,7 @@ a:hover {
     border-radius: 10px !important;
     border: 1px solid rgba(102, 126, 234, 0.15) !important;
 }
-</style>
+</style>""", unsafe_allow_html=True)
 
 
 # --- ENHANCED NAVIGATION ---
