@@ -35,8 +35,8 @@ EATC_Team7/
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/windows-malware-detection-project.git
-   cd windows-malware-detection-project
+   git clone https://github.com/your-username/EATC_Team7.git
+   cd EATC_Team7
    ```
 
 2. **Install Dependencies**
