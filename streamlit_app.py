@@ -203,8 +203,8 @@ def home_page():
         """, unsafe_allow_html=True)
     
 
- # .exe explanation
-st.markdown("""
+     # .exe explanation
+    st.markdown("""
     <div class="feature-card">
         <h2>❗ Why You Can’t Upload '.exe' Files Directly</h2>
         <p>To keep your files <strong>safe</strong> and your device <strong>secure</strong>, we don't allow '.exe' uploads directly.  
