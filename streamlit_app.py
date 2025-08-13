@@ -8,212 +8,134 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* --- Main background --- */
-.main {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-}
-
-/* --- Content container --- */
-.block-container {
-    background: rgba(255, 255, 255, 0.98);  /* higher opacity for crispness */
-    border-radius: 20px;
-    padding: 2rem;
-    margin: 2rem auto;
-    max-width: 1200px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* slightly stronger shadow */
-}
-
-/* --- Hide default Streamlit elements --- */
-#MainMenu, footer, header, .stDeployButton {
-    visibility: hidden;
-}
-
-/* --- Typography --- */
+/* --- Base typography --- */
 html, body, [class*="css"] {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* --- Navigation Pills --- */
+/* --- Light Mode --- */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #1f2937;
+}
+
+/* Main container */
+.block-container {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Cards */
+.feature-card, .metric-container, .stCodeBlock {
+    background: rgba(255, 255, 255, 1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Navigation pills */
 .nav-pills {
     display: flex;
     justify-content: center;
     gap: 0.5rem;
     margin: 2rem 0;
     padding: 0.5rem;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255,255,255,0.95);
     border-radius: 50px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
-
-.nav-pill {
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-}
-
 .nav-pill.active {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    transform: translateY(-2px);
 }
-
 .nav-pill:not(.active) {
     color: #4b5563;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255,255,255,0.95);
 }
 
-.nav-pill:not(.active):hover {
-    background: rgba(102, 126, 234, 0.1);
-    color: #667eea;
-    transform: translateY(-1px);
-}
-
-/* --- Headers --- */
-h1 {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-    font-size: 2.5rem;
-    text-align: center;
-    margin: 2rem 0;
-}
-
-h2, h3 {
-    color: #1f2937;
-    font-weight: 600;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-}
-
-/* --- Cards and sections --- */
-.feature-card {
-    background: rgba(255, 255, 255, 1); /* full opacity for crisp cards */
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin: 1rem 0;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* --- Buttons --- */
+/* Buttons */
 .stButton > button {
     background: linear-gradient(135deg, #667eea, #764ba2) !important;
     color: white !important;
-    border: none !important;
-    border-radius: 12px !important;
-    padding: 0.75rem 2rem !important;
-    font-weight: 600 !important;
-    font-size: 1rem !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
 }
-
-.stButton > button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6) !important;
-}
-
-/* --- Download buttons --- */
 .stDownloadButton > button {
     background: linear-gradient(135deg, #10b981, #059669) !important;
     color: white !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 0.6rem 1.2rem !important;
-    font-weight: 500 !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3) !important;
 }
 
-.stDownloadButton > button:hover {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5) !important;
-}
-
-/* --- File uploader --- */
+/* File uploader */
 .stFileUploader {
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 12px;
-    padding: 1rem;
+    background: rgba(255,255,255,0.98);
     border: 2px dashed #667eea;
 }
 
-.stFileUploader:hover {
-    border-color: #764ba2;
-    background: rgba(255, 255, 255, 1);
-}
-
-/* --- Success/Error messages --- */
+/* Success/Error messages */
 .stSuccess {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)) !important;
-    border: 1px solid rgba(16, 185, 129, 0.3) !important;
-    border-radius: 12px !important;
+    background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.1)) !important;
 }
-
 .stError {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1)) !important;
-    border: 1px solid rgba(239, 68, 68, 0.3) !important;
-    border-radius: 12px !important;
+    background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(220,38,38,0.1)) !important;
 }
 
-/* --- Expandable sections --- */
+/* Expanders */
 .streamlit-expanderHeader {
-    background: rgba(102, 126, 234, 0.05) !important;
+    background: rgba(102,126,234,0.05) !important;
     border-radius: 10px !important;
-    border: 1px solid rgba(102, 126, 234, 0.15) !important;
+    border: 1px solid rgba(102,126,234,0.15) !important;
 }
 
-/* --- Charts and metrics --- */
-.metric-container {
-    background: rgba(255, 255, 255, 1);
-    border-radius: 12px;
-    padding: 1rem;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* --- Links --- */
+/* Links */
 a {
     color: #667eea !important;
     text-decoration: none !important;
     font-weight: 500;
 }
-
 a:hover {
     color: #764ba2 !important;
     text-decoration: underline !important;
 }
 
-/* --- Hide Radio Buttons --- */
-.stRadio {
-    display: none;
+/* --- Dark Mode --- */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #4f46e5 0%, #6b21a8 100%);
+        color: #f3f4f6;
+    }
+    .block-container {
+        background: rgba(20, 20, 30, 0.95);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+    .feature-card, .metric-container, .stCodeBlock {
+        background: rgba(30, 30, 40, 0.95);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+    }
+    .nav-pills {
+        background: rgba(30,30,40,0.95);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+    .nav-pill:not(.active) {
+        color: #d1d5db;
+        background: rgba(50,50,60,0.95);
+    }
+    .stFileUploader {
+        background: rgba(30,30,40,0.95);
+        border: 2px dashed #4f46e5;
+    }
 }
+</style>
+""", unsafe_allow_html=True)
 
-/* --- Spinner --- */
-.stSpinner > div {
-    border-top-color: #667eea !important;
-}
-
-/* --- Code blocks --- */
-.stCodeBlock {
-    background: rgba(255, 255, 255, 1) !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(102, 126, 234, 0.15) !important;
-}
-</style>""", unsafe_allow_html=True)
 
 
 # --- ENHANCED NAVIGATION ---
