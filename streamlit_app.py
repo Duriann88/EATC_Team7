@@ -200,6 +200,20 @@ def home_page():
             <p>Get instant predictions with detailed malware family classification.</p>
         </div>
         """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="block-container">
+    ### Why can’t I just upload a `.exe` file?
+    
+    To keep your files **safe** and your device **secure**, we don't allow `.exe` uploads directly.  
+    But no worries — we provide a **simple Python script** to help you extract important features from your `.exe` on your own computer. That way, you're always in control of your own data. 🔐
+    
+    You just:
+    - Run the script locally
+    - It creates a `.csv` file from your `.exe`
+    - Upload that `.csv` here for prediction
+    </div>
+    """, unsafe_allow_html=True)
     
     # How it works
     st.markdown("""
