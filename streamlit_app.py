@@ -162,6 +162,7 @@ def render_navigation():
 
 # --- PAGE CONTENT FUNCTIONS ---
 def home_page():
+    # Main title
     st.markdown('<h1>Malware Detection System</h1>', unsafe_allow_html=True)
     
     # Hero section
@@ -200,8 +201,8 @@ def home_page():
             <p>Get instant predictions with detailed malware family classification.</p>
         </div>
         """, unsafe_allow_html=True)
-
-    # Why exe unacceptable
+    
+    # .exe explanation
     st.markdown("""
     <div class="feature-card">
         <h2 style="text-align: center; margin-top: 0;">❗ Why can’t I just upload a `.exe` file?</h2>
@@ -221,7 +222,6 @@ def home_page():
         </ul>
     </div>
     """, unsafe_allow_html=True)
-
     
     # How it works
     st.markdown("""
