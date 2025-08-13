@@ -201,19 +201,27 @@ def home_page():
         </div>
         """, unsafe_allow_html=True)
 
+    # Why exe unacceptable
     st.markdown("""
-    <div class="block-container">
-    ### Why can’t I just upload a `.exe` file?
-    
-    To keep your files **safe** and your device **secure**, we don't allow `.exe` uploads directly.  
-    But no worries — we provide a **simple Python script** to help you extract important features from your `.exe` on your own computer. That way, you're always in control of your own data. 🔐
-    
-    You just:
-    - Run the script locally
-    - It creates a `.csv` file from your `.exe`
-    - Upload that `.csv` here for prediction
+    <div class="feature-card">
+        <h2 style="text-align: center; margin-top: 0;">❗ Why can’t I just upload a `.exe` file?</h2>
+        
+        <p style="text-align: center; font-size: 1.1rem; color: #6b7280;">
+            To keep your files <strong>safe</strong> and your device <strong>secure</strong>, we don't allow `.exe` uploads directly.  
+            But no worries — we provide a <strong>simple Python script</strong> to help you extract important features from your `.exe` on your own computer. That way, you're always in control of your own data. 🔐
+        </p>
+        
+        <p style="font-size: 1.1rem; line-height: 1.8; margin-top: 1rem;">
+            You just:
+        </p>
+        <ul style="font-size: 1.1rem; line-height: 1.8;">
+            <li>Run the script locally</li>
+            <li>It creates a <strong>.csv</strong> file from your `.exe`</li>
+            <li>Upload that <strong>.csv</strong> here for prediction</li>
+        </ul>
     </div>
     """, unsafe_allow_html=True)
+
     
     # How it works
     st.markdown("""
