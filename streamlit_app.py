@@ -7,7 +7,6 @@ st.set_page_config(
     page_title="Malware Detection System",
     layout="wide",
     initial_sidebar_state="collapsed"
-)
 
 
 st.markdown("""
@@ -442,7 +441,7 @@ def model_perf_page():
             <div>
                 <h3>🛠️ Technology Stack</h3>
                 <ul>
-                    <li>XGBoost, Scikit-learn</li>
+                    <li>XGBoost, Scikit-learn, Joblib</li>
                     <li>Pandas, NumPy</li>
                     <li>Matplotlib, Seaborn</li>
                 </ul>
