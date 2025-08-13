@@ -236,7 +236,6 @@ def render_navigation():
     cols = st.columns(4)
     for i, (tab, icon) in enumerate(zip(tabs, icons)):
         with cols[i]:
-            active_class = "active" if i == st.session_state.current_tab else ""
             if st.button(f"{icon} {tab}", key=f"nav_{i}", help=f"Navigate to {tab}"):
                 st.session_state.current_tab = i
                 st.rerun()
@@ -247,7 +246,7 @@ def render_navigation():
 
 # --- PAGE CONTENT FUNCTIONS ---
 def home_page():
-    st.markdown('<h1>Malware Detection System</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>🛡️ Malware Detection System</h1>', unsafe_allow_html=True)
     
     # Hero section
     st.markdown("""
@@ -353,7 +352,7 @@ def home_page():
     """, unsafe_allow_html=True)
 
 def eda_page():
-    st.markdown('<h1>EDA Insights</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>📊 EDA Insights</h1>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="feature-card">
@@ -368,31 +367,56 @@ def eda_page():
         try:
             st.image("assets/class_distribution.png", caption="Class Distribution of Malware Types", use_container_width=True)
         except:
-            st.info("📷 Image file not found: class_distribution.png")
+            st.info("📷 Image file not found: assets/class_distribution.png")
 
     with st.expander("📦 2. Outlier Detection Analysis"):
         st.markdown("Boxplot analysis showing statistical outliers across different malware classes:")
         try:
             st.image("assets/outlier_boxplots.png", caption="Statistical outliers per malware class", use_container_width=True)
         except:
-            st.info("📷 Image file not found: outlier_boxplots.png")
+            st.info("📷 Image file not found: assets/outlier_boxplots.png")
 
     with st.expander("🔗 3. Feature Correlation Matrix"):
         st.markdown("Correlation heatmap revealing relationships between different features:")
         try:
             st.image("assets/correlation_heatmap.png", caption="Feature correlation analysis (sample of 3000 rows)", use_container_width=True)
         except:
-            st.info("📷 Image file not found: corelation_heatmap.png")
+            st.info("📷 Image file not found: assets/correlation_heatmap.png")
 
     with st.expander("📊 4. Feature Trends by Class"):
         st.markdown("Line plots showing how top correlated features vary across malware families:")
         try:
             st.image("assets/line_plot.png", caption="Class-wise trends for highly correlated features", use_container_width=True)
         except:
-            st.info("📷 Image file not found: line_plot.png")
+            st.info("📷 Image file not found: assets/line_plot.png")
+
+    with st.expander("📋 5. Key Feature Distributions"):
+        st.markdown("Distribution patterns of critical features across different malware classes:")
+        
+        col1, col2 = st.columns(2)
+        
+        # Define feature images with their titles
+        feature_images = [
+            ("assets/AddressOfEntryPoint_distribution_by_class.png", "Address of Entry Point"),
+            ("assets/rsrc_Misc_VirtualSize_distribution_by_class.png", "Resource Virtual Size"),
+            ("assets/rsrc_PointerToRawData_distribution_by_class.png", "Resource Pointer to Raw Data"),
+            ("assets/text_Misc_VirtualSize_distribution_by_class.png", "Text Section Virtual Size"),
+            ("assets/TimeDateStamp_distribution_by_class.png", "Time Date Stamp")
+        ]
+        
+        # Display images in alternating columns
+        for i in range(len(feature_images)):
+            img_path, title = feature_images[i]
+            target_col = col1 if i % 2 == 0 else col2
+            
+            with target_col:
+                try:
+                    st.image(img_path, use_container_width=True, caption=title)
+                except Exception:
+                    st.info(f"📷 Image file not found: {img_path}")
 
 def model_perf_page():
-    st.markdown('<h1>Model Performance</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>🤖 Model Performance</h1>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="feature-card">
@@ -446,8 +470,10 @@ def model_perf_page():
         with open("assets/classification_report.txt", "r") as f:
             report = f.read()
         st.code(report, language='text')
+    except FileNotFoundError:
+        st.info("📄 Classification report file not found. Please ensure 'assets/classification_report.txt' is available.")
     except Exception as e:
-        st.error(f"❌ Error loading classification_report.txt: {e}")
+        st.error(f"❌ Error loading classification report: {str(e)}")
     
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -460,16 +486,26 @@ def model_perf_page():
     
     try:
         st.image("assets/confusion_matrix.png", caption="Confusion Matrix - Model Prediction Accuracy", use_container_width=True)
+    except FileNotFoundError:
+        st.info("📊 Confusion matrix image not found. Please ensure 'assets/confusion_matrix.png' is available.")
     except Exception as e:
-        st.error(f"❌ Error loading confusion_matrix.png: {e}")
+        st.error(f"❌ Error loading confusion matrix: {str(e)}")
     
     st.markdown("</div>", unsafe_allow_html=True)
 
     # Feature Importance
+    st.markdown("""
+    <div class="feature-card">
+        <h2>⭐ Feature Importance</h2>
+        <p>The most influential features in malware classification:</p>
+    """, unsafe_allow_html=True)
+    
     try:
         st.image("assets/feature_importance.png", caption="Model Top 20 features", use_container_width=True)
+    except FileNotFoundError:
+        st.info("📈 Feature importance image not found. Please ensure 'assets/feature_importance.png' is available.")
     except Exception as e:
-        st.error(f"❌ Error loading feature_importance.png: {e}")
+        st.error(f"❌ Error loading feature importance: {str(e)}")
     
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -479,7 +515,7 @@ def model_perf_page():
         <h2>🔧 Technical Implementation</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
             <div>
-                <h3>Optimization</h3>
+                <h3>🎯 Optimization</h3>
                 <ul>
                     <li>Optuna hyperparameter tuning</li>
                     <li>Cross-validation based selection</li>
@@ -487,7 +523,7 @@ def model_perf_page():
                 </ul>
             </div>
             <div>
-                <h3>Feature Engineering</h3>
+                <h3>📊 Feature Engineering</h3>
                 <ul>
                     <li>ExtraTreesClassifier feature selection</li>
                     <li>Top 200 most important features</li>
@@ -495,7 +531,7 @@ def model_perf_page():
                 </ul>
             </div>
             <div>
-                <h3>Technology Stack</h3>
+                <h3>🛠️ Technology Stack</h3>
                 <ul>
                     <li>XGBoost, Scikit-learn</li>
                     <li>Pandas, NumPy</li>
@@ -507,7 +543,7 @@ def model_perf_page():
     """, unsafe_allow_html=True)
 
 def prediction_page():
-    st.markdown('<h1>Real-Time Prediction</h1>', unsafe_allow_html=True)
+    st.markdown('<h1>🔍 Real-Time Prediction</h1>', unsafe_allow_html=True)
     
     st.markdown("""
     <div class="feature-card">
@@ -527,7 +563,7 @@ def prediction_page():
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("**Sample Input CSV**")
+        st.markdown("**🔬 Sample Input CSV**")
         st.markdown("Use this sample to understand the required file format")
         try:
             with open("tools/sample_input.csv", "rb") as f:
@@ -538,11 +574,13 @@ def prediction_page():
                     mime="text/csv",
                     use_container_width=True
                 )
-        except:
-            st.error("❌ Sample file not found")
+        except FileNotFoundError:
+            st.error("❌ Sample CSV file not found at 'tools/sample_input.csv'")
+        except Exception as e:
+            st.error(f"❌ Error loading sample file: {str(e)}")
     
     with col2:
-        st.markdown("**Feature Extractor Tool**")
+        st.markdown("**🔧 Feature Extractor Tool**")
         st.markdown("Python script to extract features from your .exe files")
         try:
             with open("tools/extract_features.py", "rb") as f:
@@ -553,8 +591,10 @@ def prediction_page():
                     mime="text/x-python",
                     use_container_width=True
                 )
-        except:
-            st.error("❌ Extractor tool not found")
+        except FileNotFoundError:
+            st.error("❌ Feature extractor not found at 'tools/extract_features.py'")
+        except Exception as e:
+            st.error(f"❌ Error loading extractor tool: {str(e)}")
     
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -586,8 +626,18 @@ def prediction_page():
                     input_df = input_df.drop(columns=["SHA256"])
 
                 # Load model and make prediction
-                model = joblib.load("xgb_model.joblib")
-                feature_list = pd.read_csv("new_feature_order.csv")["Feature"].tolist()
+                try:
+                    model = joblib.load("xgb_model.joblib")
+                except FileNotFoundError:
+                    st.error("❌ Model file 'xgb_model.joblib' not found!")
+                    st.stop()
+                
+                try:
+                    feature_list = pd.read_csv("new_feature_order.csv")["Feature"].tolist()
+                except FileNotFoundError:
+                    st.error("❌ Feature order file 'new_feature_order.csv' not found!")
+                    st.stop()
+                
                 input_df = input_df.reindex(columns=feature_list, fill_value=0)
 
                 prediction = model.predict(input_df)[0]
@@ -632,22 +682,4 @@ def prediction_page():
                 st.markdown("- Missing required features")
                 st.markdown("- Model files not found")
     
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# --- MAIN APP ---
-def main():
-    # Render navigation and get current tab
-    current_tab = render_navigation()
-    
-    # Render content based on selected tab
-    if current_tab == "Home":
-        home_page()
-    elif current_tab == "EDA Insights":
-        eda_page()
-    elif current_tab == "Model Performance":
-        model_perf_page()
-    elif current_tab == "Real-Time Prediction":
-        prediction_page()
-
-if __name__ == "__main__":
-    main()
+    st.markdown("</div>",
