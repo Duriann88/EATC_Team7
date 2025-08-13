@@ -205,20 +205,23 @@ def home_page():
     # .exe explanation
 
     st.markdown("""
-    <h2 style="text-align: center; margin-top: 0;">❗ Why You Can’t Upload `.exe` Files Directly</h2>
-    <p style="text-align: center; font-size: 1.1rem; color: #6b7280;">
-        To keep your files <strong>safe</strong> and your device <strong>secure</strong>, we don't allow `.exe` uploads directly.  
-        But no worries — we provide a <strong>simple Python script</strong> to help you extract important features from your `.exe` on your own computer. That way, you're always in control of your own data. 🔐
-    </p>
-    
-    <p style="font-size: 1.1rem; line-height: 1.8; margin-top: 1rem;">
-        You just:
-    </p>
-    <ul style="font-size: 1.1rem; line-height: 1.8;">
-        <li>Run the script locally</li>
-        <li>It creates a <strong>.csv</strong> file from your `.exe`</li>
-        <li>Upload that <strong>.csv</strong> here for prediction</li>
-    </ul>
+    <div class="feature-card">
+        <h2 style="text-align: center; margin-top: 0;">❗ Why You Can’t Upload `.exe` Files Directly</h2>
+        
+        <p style="text-align: center; font-size: 1.1rem; color: #6b7280;">
+            To keep your files <strong>safe</strong> and your device <strong>secure</strong>, we don't allow `.exe` uploads directly.  
+            But no worries — we provide a <strong>simple Python script</strong> to help you extract important features from your `.exe` on your own computer. That way, you're always in control of your own data. 🔐
+        </p>
+        
+        <p style="font-size: 1.1rem; line-height: 1.8; margin-top: 1rem;">
+            You just:
+        </p>
+        <ul style="font-size: 1.1rem; line-height: 1.8;">
+            <li>Run the script locally</li>
+            <li>It creates a <strong>.csv</strong> file from your `.exe`</li>
+            <li>Upload that <strong>.csv</strong> here for prediction</li>
+        </ul>
+    </div>
     """, unsafe_allow_html=True)
 
     
