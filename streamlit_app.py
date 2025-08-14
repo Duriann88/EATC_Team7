@@ -188,7 +188,7 @@ def home_page():
     with col2:
         st.markdown("""
         <div class="feature-card">
-            <h3>🎯 89% Accuracy</h3>
+            <h3>🎯 90% Accuracy</h3>
             <p>XGBoost model trained on 30,000+ samples with Optuna hyperparameter optimization.</p>
         </div>
         """, unsafe_allow_html=True)
@@ -247,7 +247,7 @@ def home_page():
             </div>
             <div class="metric-container">
                 <h3 style="margin: 0; color: #667eea;">Accuracy</h3>
-                <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem;">~89%</p>
+                <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem;">~90%</p>
             </div>
             <div class="metric-container">
                 <h3 style="margin: 0; color: #667eea;">Features</h3>
