@@ -340,7 +340,7 @@ def model_perf_page():
         st.markdown("""
         <div class="metric-container">
             <h3 style="margin: 0; color: #10b981;">Overall Accuracy</h3>
-            <p style="margin: 0.5rem 0 0 0; font-size: 1.5rem; font-weight: 700;">~89%</p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1.5rem; font-weight: 700;">~90%</p>
         </div>
         """, unsafe_allow_html=True)
     
